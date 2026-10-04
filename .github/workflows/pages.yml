@@ -1,7 +1,7 @@
 # Publish the beta to GitHub Pages.
 #
 # The worksheet is one static file with no build step, so a push to main
-# uploads site/ as it stands. The beta lives at https://ripberjt.github.io/errs/;
+# uploads site/ as it stands. The beta lives at https://ippra.github.io/errs/;
 # the released version at https://ippra.net/errs is copied there by hand.
 
 name: Publish beta
