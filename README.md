@@ -73,4 +73,12 @@ serve `index.html` with `Cache-Control: no-cache` (as for the dashboards, on
 the entry URLs `/errs`, `/errs/` and `/errs/index.html`), so a new deploy is
 seen without a hard refresh.
 
+After deploying, open https://ippra.net/errs and check two things: the
+worksheet loads, and there is no Beta label beside "ERRS" in the masthead.
+
+Link to it from ippra.net as `/errs/?from=<path of the linking page>`, for
+example `/errs/?from=/tools`. A visitor who arrives that way gets a "Back to
+IPPRA" link in the black bar that returns them to that page; anyone else sees
+the institute's name there.
+
 To publish a newer version, pull `main` and rsync again.
