@@ -1,0 +1,1376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERRS Worksheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;600&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    --bg: #F3F5F4;
+    --surface: #FFFFFF;
+    --ink: #16202A;
+    --muted: #56626C;
+    --rule: #D3D9DC;
+    --line: #16202A;
+    --hover: #E6ECEE;
+    --accent: #2E7A3C;
+    --accent-tint: #E2EFE3;
+    --opt-0: #245C92;
+    --opt-1: #A0590B;
+    --opt-2: #6A4A9C;
+    --opt-3: #A13A5C;
+    --on-opt: #FFFFFF;
+    --tip-bg: #16202A;
+    --tip-ink: #F3F5F4;
+    --track: #E3E8EA;
+    --opt: var(--ink);
+    --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+    --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1317;
+      --surface: #151C22;
+      --ink: #E4E9ED;
+      --muted: #9AA6B0;
+      --rule: #2B353D;
+      --line: #A9B5BE;
+      --hover: #1F2830;
+      --accent: #74C483;
+      --accent-tint: #15281A;
+      --opt-0: #86B6EA;
+      --opt-1: #E7A95A;
+      --opt-2: #B9A0E6;
+      --opt-3: #E890AC;
+      --on-opt: #0E1317;
+      --tip-bg: #E4E9ED;
+      --tip-ink: #0E1317;
+      --track: #232C33;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1317;
+    --surface: #151C22;
+    --ink: #E4E9ED;
+    --muted: #9AA6B0;
+    --rule: #2B353D;
+    --line: #A9B5BE;
+    --hover: #1F2830;
+    --accent: #74C483;
+    --accent-tint: #15281A;
+    --opt-0: #86B6EA;
+    --opt-1: #E7A95A;
+    --opt-2: #B9A0E6;
+    --opt-3: #E890AC;
+    --on-opt: #0E1317;
+    --tip-bg: #E4E9ED;
+    --tip-ink: #0E1317;
+    --track: #232C33;
+  }
+
+  .opt-0 { --opt: var(--opt-0); }
+  .opt-1 { --opt: var(--opt-1); }
+  .opt-2 { --opt: var(--opt-2); }
+  .opt-3 { --opt: var(--opt-3); }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .page {
+    max-width: 74rem;
+    margin: 0 auto;
+    padding-inline: clamp(16px, 4vw, 40px);
+    padding-block: 2.5rem 5rem;
+    display: grid;
+    gap: 2.5rem;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* Head ---------------------------------------------------------------- */
+  .head { display: grid; gap: 1.25rem; }
+  h1 {
+    font-family: var(--display);
+    font-stretch: 85%;
+    font-weight: 780;
+    font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+  }
+  h1 abbr { text-decoration: none; }
+  .head-rule {
+    border: 0;
+    border-top: 3px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    height: 5px;
+    margin: 0;
+  }
+  .intro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 1rem 2.5rem;
+  }
+  .intro p { max-width: 62ch; }
+  .lead {
+    font-family: var(--display);
+    font-weight: 700;
+    font-stretch: 90%;
+  }
+  .lead::after { content: " |"; color: var(--muted); font-weight: 400; }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding-block: 0.75rem;
+    border-block: 1px solid var(--rule);
+  }
+  .notice { font-size: 0.875rem; color: var(--muted); max-width: 60ch; }
+  .notice.is-example {
+    color: var(--ink);
+    background: var(--accent-tint);
+    padding: 0.35rem 0.7rem;
+    border-left: 3px solid var(--accent);
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .btn {
+    font-family: var(--display);
+    font-weight: 650;
+    font-stretch: 92%;
+    font-size: 0.9rem;
+    background: transparent;
+    border: 1.5px solid var(--line);
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  .btn.is-armed { background: var(--opt-3); border-color: var(--opt-3); color: var(--on-opt); }
+  .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+  .btn[disabled]:hover { background: transparent; color: var(--ink); }
+
+  .cue {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* Scoring sheet ------------------------------------------------------- */
+  .sheet {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(var(--n), minmax(10.5rem, 14rem));
+    column-gap: 1.25rem;
+  }
+  .row { display: contents; }
+  .cell { padding-block: 1.25rem; border-top: 1px solid var(--rule); min-width: 0; }
+  .row-head .cell { border-top: 0; padding-block: 0 1rem; align-self: start; }
+
+  .opt-head { display: grid; gap: 0.35rem; }
+  .opt-head-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+  .opt-head label {
+    font-family: var(--display);
+    font-weight: 750;
+    font-stretch: 88%;
+    font-size: 1.05rem;
+    color: var(--opt);
+  }
+  .opt-head textarea {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    min-height: 3.6rem;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    padding: 0.45rem 0.55rem;
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+  .opt-head textarea:focus-visible { outline-color: var(--opt); }
+  .icon-btn {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .icon-btn:hover { color: var(--ink); }
+
+  .crit h3 {
+    font-family: var(--display);
+    font-weight: 720;
+    font-stretch: 90%;
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  .crit p { font-size: 0.9rem; max-width: 64ch; }
+  .crit .direction {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  details { margin-top: 0.6rem; font-size: 0.85rem; max-width: 64ch; }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+    width: fit-content;
+  }
+  .scale {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .scale li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.4rem; }
+  .scale b { font-family: var(--mono); font-weight: 600; text-align: center; }
+  .examples { display: grid; gap: 0.3rem; margin-top: 0.7rem; color: var(--muted); }
+  .examples strong { color: var(--ink); font-weight: 600; }
+
+  fieldset.score {
+    margin: 0;
+    min-width: 0;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    padding: 0.55rem;
+    display: grid;
+    gap: 0.4rem;
+    transition: box-shadow 120ms ease;
+  }
+  .score-tag { display: none; }
+  .seg { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--rule); }
+  .seg label { position: relative; cursor: pointer; }
+  .seg label + label { border-left: 1px solid var(--rule); }
+  .seg span {
+    display: grid;
+    place-items: center;
+    height: 2.5rem;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .seg label:hover span { background: var(--hover); }
+  .seg input:checked + span { background: var(--opt); color: var(--on-opt); }
+  .seg input:focus-visible + span { outline: 3px solid var(--opt); outline-offset: -3px; }
+  .ends {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .ends span { max-width: 50%; }
+  .ends span:last-child { text-align: right; }
+  .anchor { font-size: 0.8rem; line-height: 1.35; min-height: 2.2em; }
+  .anchor.empty { color: var(--muted); font-style: italic; }
+
+  .sheet.stacked { display: block; }
+  .sheet.stacked .row { display: grid; gap: 0.75rem; padding-block: 1.25rem; border-top: 1px solid var(--rule); }
+  .sheet.stacked .row-head { border-top: 0; padding-block: 0 0.5rem; }
+  .sheet.stacked .cell { border-top: 0; padding-block: 0; }
+  .sheet.stacked .score-tag {
+    display: block;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--opt);
+  }
+
+  /* Formulas ------------------------------------------------------------ */
+  .section-head { display: grid; gap: 0.6rem; }
+  h2 {
+    font-family: var(--display);
+    font-weight: 760;
+    font-stretch: 88%;
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+  .steps-note { font-size: 0.9rem; max-width: 70ch; }
+  .formulas { display: grid; gap: 1.25rem; }
+  .eq {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--opt);
+    padding: 1rem clamp(0.75rem, 2vw, 1.5rem) 1.1rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .eq-title {
+    font-family: var(--display);
+    font-stretch: 90%;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.6rem;
+    align-items: baseline;
+  }
+  .eq-letter { font-weight: 760; color: var(--opt); }
+  .eq-name { color: var(--muted); }
+  .eq-scroll { overflow-x: auto; padding-block: 0.4rem; }
+  .eq-body {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: max-content;
+    margin-inline: auto;
+  }
+  .frac { display: grid; gap: 0.55rem; justify-items: center; }
+  .num { display: flex; align-items: center; gap: 0.45rem; }
+  .frac-rule { height: 2px; width: 100%; background: var(--line); }
+  .br {
+    font-family: var(--display);
+    font-weight: 300;
+    font-stretch: 70%;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: var(--muted);
+  }
+  .op { font-family: var(--mono); font-size: 1.4rem; color: var(--muted); }
+  .term {
+    display: inline-grid;
+    justify-items: center;
+    min-width: 5.4rem;
+    padding: 0.3rem 0.5rem 0.35rem;
+    border: 1.5px solid var(--line);
+    background: var(--surface);
+    cursor: default;
+  }
+  .term-val { font-family: var(--mono); font-weight: 600; font-size: 1.45rem; line-height: 1.2; }
+  .term-lab {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .term.empty { border-style: dashed; border-color: var(--rule); }
+  .term.empty .term-val { color: var(--rule); }
+  .result-wrap { display: grid; gap: 0.25rem; justify-items: center; }
+  .result-lab {
+    font-family: var(--display);
+    font-weight: 700;
+    font-stretch: 90%;
+    font-size: 0.85rem;
+  }
+  .result {
+    display: grid;
+    place-items: center;
+    min-width: 8rem;
+    min-height: 4.4rem;
+    padding-inline: 0.75rem;
+    border: 2.5px solid var(--opt);
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 2rem;
+    font-variant-numeric: tabular-nums;
+    cursor: default;
+  }
+  .result.pending { color: var(--muted); border-style: dashed; font-size: 1.4rem; }
+  .work {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .work strong { color: var(--ink); }
+  .linked {
+    box-shadow: 0 0 0 3px var(--opt);
+    background: color-mix(in srgb, var(--opt) 12%, var(--surface));
+  }
+
+  /* Comparison ---------------------------------------------------------- */
+  .compare {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 2rem 3rem;
+    align-items: start;
+  }
+  .ranks { display: grid; gap: 0.9rem; margin-top: 0.6rem; }
+  .rank { display: grid; gap: 0.3rem; }
+  .rank-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .rank-name { font-size: 0.9rem; min-width: 0; }
+  .rank-name b { font-family: var(--display); color: var(--opt); margin-right: 0.35rem; }
+  .rank-val { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .track { height: 0.9rem; background: var(--track); }
+  .fill { height: 100%; background: var(--opt); transition: width 300ms ease; }
+  .chip {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0 0.4rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: var(--accent-tint);
+    color: var(--accent);
+    vertical-align: 0.1em;
+  }
+  .compare-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.9rem; }
+  .about { display: grid; gap: 0.7rem; font-size: 0.9rem; max-width: 62ch; }
+  .about h3 { font-family: var(--display); font-weight: 720; font-stretch: 90%; font-size: 1.1rem; }
+  .about ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.45rem; }
+
+  /* Advanced weighted sum ------------------------------------------------ */
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 0.5rem;
+    font-family: var(--display);
+    font-weight: 650;
+    font-stretch: 92%;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .switch input {
+    appearance: none;
+    position: relative;
+    flex: none;
+    width: 2.2rem;
+    height: 1.2rem;
+    margin: 0;
+    border: 1.5px solid var(--line);
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .switch input::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 0.8rem;
+    height: 0.8rem;
+    background: var(--line);
+    transition: transform 150ms ease;
+  }
+  .switch-text { display: grid; line-height: 1.2; }
+  .switch-text small {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .switch input:checked { background: var(--accent); border-color: var(--accent); }
+  .switch input:checked::after { transform: translateX(1rem); background: var(--surface); }
+
+  .importance {
+    display: grid;
+    gap: 0.4rem;
+    max-width: 30rem;
+    margin-top: 0.8rem;
+    padding: 0.5rem 0.65rem 0.6rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-tint);
+  }
+  .imp-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .crit .imp-label { font-size: 0.72rem; }
+  .wseg {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  .wseg label { cursor: pointer; }
+  .wseg label + label { border-left: 1px solid var(--rule); }
+  .wseg span {
+    display: grid;
+    place-items: center;
+    padding: 0.3rem 0.25rem;
+    font-size: 0.72rem;
+    line-height: 1.15;
+    text-align: center;
+  }
+  .wseg b { font-family: var(--mono); font-size: 0.95rem; }
+  .wseg label:hover span { background: var(--hover); }
+  .wseg input:checked + span { background: var(--accent); color: var(--surface); }
+  .wseg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: -3px; }
+  .importance.linked { box-shadow: 0 0 0 3px var(--accent); background: var(--accent-tint); }
+  .w.linked { box-shadow: 0 0 0 2px var(--accent); background: var(--accent-tint); }
+
+  .method-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .method-split {
+    display: grid;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--rule);
+  }
+  .wterm { min-width: 4.6rem; }
+  .w { color: var(--accent); padding-inline: 0.15rem; }
+  .times { color: var(--muted); font-weight: 400; font-size: 1rem; margin-inline: 0.1rem; }
+  .rank-blocks { display: grid; gap: 1.75rem; margin-top: 1rem; }
+  .methods-note {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.7rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-tint);
+  }
+
+  #tip {
+    position: fixed;
+    z-index: 10;
+    max-width: 19rem;
+    padding: 0.45rem 0.65rem;
+    background: var(--tip-bg);
+    color: var(--tip-ink);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    white-space: pre-line;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+  }
+
+  @media (max-width: 640px) {
+    .term { min-width: 4.3rem; }
+    .term-val { font-size: 1.2rem; }
+    .br { font-size: 2.6rem; }
+    .result { min-width: 6.5rem; font-size: 1.6rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fill, fieldset.score { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="head">
+    <h1>Enhanced Reliability and Resilience Score (<abbr>ERRS</abbr>) Worksheet</h1>
+    <hr class="head-rule">
+    <div class="intro">
+      <p><span class="lead">Purpose</span> The Enhanced Reliability and
+        Resilience Score (ERRS) provides a clear, consistent way to compare and
+        prioritize mitigation options. It combines expert judgment with a
+        quantitative framework to weigh options on a common scale and identify
+        those that most effectively improve energy system reliability and
+        resilience relative to cost.</p>
+      <p><span class="lead">Instructions</span> Start by identifying two or
+        more mitigation options under consideration. Then evaluate each option
+        across the components listed below, using a 1–5 scale for each. If some
+        components matter more than others, agree on their relative importance
+        before scoring. Apply a combination of expert and
+        stakeholder judgment to ensure that a broad range of perspectives
+        inform the scoring and weighting process.</p>
+    </div>
+    <div class="toolbar">
+      <p class="notice" id="notice" aria-live="polite"></p>
+      <div class="actions">
+        <label class="switch" for="advanced" data-tip="Turn on if your group agreed that some components matter more than others. You rate each component's importance (1–3) and see a weighted score alongside the standard ERRS.">
+          <input type="checkbox" id="advanced">
+          <span class="switch-text">Weight by importance<small>If some components matter more than others</small></span>
+        </label>
+        <button class="btn" id="add-option" type="button">Add option</button>
+        <button class="btn" id="load-example" type="button">Load example</button>
+        <button class="btn" id="load-exercise" type="button">Load exercise</button>
+        <button class="btn" id="clear" type="button">Clear worksheet</button>
+      </div>
+    </div>
+  </header>
+
+  <section aria-label="Score the options">
+    <div class="sheet" id="sheet"></div>
+  </section>
+
+  <section class="section-head" aria-labelledby="calc-h">
+    <h2 id="calc-h">Calculation</h2>
+    <p class="steps-note"><span class="lead">Calculation Steps</span> Add the
+      Reliability and Resilience scores first, then multiply by the
+      Feasibility, Acceptability, and Vulnerable Population Impact scores.
+      Finally, divide the total by the Cost Score to get the ERRS value for
+      each option.</p>
+    <p class="steps-note adv-only" hidden><span class="lead">Weighted Score</span>
+      Multiply each score by how important that component is to you (1–3),
+      with cost reversed (6 − cost) so a lower cost counts in an option's
+      favor. Add those up, then divide by the total importance. The result
+      stays on the 1–5 scale.</p>
+    <p class="cue">Your scores above fill in the formulas below. Hover any box to see where it came from. ↴</p>
+    <div class="formulas" id="formulas"></div>
+  </section>
+
+  <section class="compare" aria-labelledby="compare-h">
+    <div>
+      <h2 id="compare-h">Comparison</h2>
+      <div id="ranks"></div>
+    </div>
+    <aside class="about">
+      <h3>Reading the score</h3>
+      <ul>
+        <li>ERRS runs from <b>0.4</b> (lowest on every component, highest cost)
+          to <b>1,250</b> (highest on every component, lowest cost). It is for
+          comparing options against each other, not a pass/fail threshold.</li>
+        <li>Feasibility, Acceptability and Vulnerable Population Impact
+          <em>multiply</em>, so a 1 on any of them cuts the score to a fraction
+          of what the other scores would suggest.</li>
+        <li>Cost is the divisor: moving from a 2 to a 4 halves the ERRS, all
+          else equal.</li>
+        <li class="adv-only" hidden>The weighted score is an importance-weighted
+          average of all six scores. It runs from 1 to 5, and Reliability and
+          Resilience each carry their own weight rather than being added
+          together first.</li>
+        <li class="adv-only" hidden>Only relative importance matters: rating
+          every component 3 gives the same result as rating every component
+          1.</li>
+        <li class="adv-only" hidden>When the two methods rank options
+          differently, the importance ratings or the multiplication are
+          driving the result. Talk that through before choosing.</li>
+        <li>Scores are only comparable when the same group scored the options
+          with the same understanding of the scale.</li>
+      </ul>
+    </aside>
+  </section>
+</div>
+
+<div id="tip" role="tooltip" hidden></div>
+
+<script>
+  const CRITERIA = [
+    {
+      key: "reliability",
+      name: "Reliability",
+      label: "Reliability",
+      desc: "Assess how much the mitigation option will <em>prevent</em> power interruptions and ensure consistent, dependable energy delivery under normal operating conditions. A score of 1 means it would make little noticeable difference, while a score of 5 means it would greatly reduce routine outages or improve day-to-day system performance.",
+      ends: ["Little difference", "Greatly reduces"],
+      anchors: [
+        "Little noticeable difference in routine outages or day-to-day performance.",
+        "Minor improvement; a few routine interruptions avoided.",
+        "Moderate improvement; noticeably fewer or shorter routine outages.",
+        "Substantial improvement in day-to-day reliability across much of the system.",
+        "Greatly reduces routine outages or improves day-to-day system performance."
+      ],
+      high: "Automated feeder switching, replacing aging transformers and poles, a sustained vegetation-management cycle.",
+      low: "Backup generation at a single facility, which mainly matters during major events rather than normal operations."
+    },
+    {
+      key: "resilience",
+      name: "Resilience",
+      label: "Resilience",
+      desc: "Assess how much the mitigation option will help customers or facilities <em>withstand and recover</em> from major disruptions such as extreme weather, equipment failure, or supply shortages. A score of 1 means it provides little added protection or recovery capability, while a score of 5 means it would significantly strengthen the ability to maintain or quickly restore power after a disruption.",
+      ends: ["Little protection", "Greatly strengthens"],
+      anchors: [
+        "Little added protection or recovery capability.",
+        "Some protection, but only for a narrow set of events or facilities.",
+        "Meaningfully improves the ability to ride through or recover from some major events.",
+        "Strong protection or much faster restoration for most likely hazards.",
+        "Significantly strengthens the ability to maintain or quickly restore power after a disruption."
+      ],
+      high: "A microgrid with storage at critical facilities, undergrounding lines in ice-storm corridors, elevating flood-prone substations.",
+      low: "Upgrades to billing or customer-service systems that do not affect service during an event."
+    },
+    {
+      key: "feasibility",
+      name: "Feasibility",
+      label: "Feasibility",
+      desc: "Assess how practical the mitigation option is to carry out, considering factors such as technical complexity, regulatory requirements, available expertise, and local conditions. A score of 1 means it would be difficult to implement, while a score of 5 means it would be straightforward and realistic given current capabilities.",
+      ends: ["Difficult", "Straight­forward"],
+      anchors: [
+        "Difficult to implement: major technical, regulatory, or expertise barriers.",
+        "Significant hurdles; would need new expertise, permits, or partners.",
+        "Achievable with moderate effort and some new resources.",
+        "Mostly straightforward, with minor hurdles.",
+        "Straightforward and realistic given current capabilities."
+      ],
+      high: "Expanding an existing tree-trimming program, or adding equipment a utility already installs and maintains.",
+      low: "A new transmission line requiring multi-jurisdiction siting, rights-of-way and years of regulatory review."
+    },
+    {
+      key: "acceptability",
+      name: "Acceptability",
+      label: "Acceptability",
+      desc: "Assess how likely stakeholders, communities, and decision-makers are to support the mitigation option. Consider factors such as public perception, political support, and community trust. A score of 1 means the action would face significant opposition or concern, while a score of 5 means it would be widely supported and accepted by affected groups.",
+      ends: ["Opposed", "Widely supported"],
+      anchors: [
+        "Would face significant opposition or concern.",
+        "Mixed reception; notable opposition from some groups.",
+        "Generally neutral, or support and concern roughly balanced.",
+        "Broad support with limited concerns.",
+        "Widely supported and accepted by affected groups."
+      ],
+      high: "Backup power at shelters and schools, which is visible, local and broadly popular.",
+      low: "A new generating plant sited near homes, or a measure that requires a noticeable rate increase."
+    },
+    {
+      key: "vulnerable",
+      name: "Vulnerable Population Impact",
+      label: "Vuln. Pop.",
+      desc: "Assess how effectively the mitigation action reduces negative impacts on people and communities most likely to experience serious consequences from energy disruptions. For example, those with limited access to backup power, critical medical needs, or fewer financial resources. A score of 1 means it provides little or no added protection, while a score of 5 means it would greatly reduce hardship or improve recovery for these groups.",
+      ends: ["Little benefit", "Greatly reduces hardship"],
+      anchors: [
+        "Little or no added protection for high-risk groups.",
+        "Minor or indirect benefit to high-risk groups.",
+        "Moderate benefit for some high-risk groups.",
+        "Substantial benefit, deliberately targeted at high-risk groups.",
+        "Greatly reduces hardship or improves recovery for these groups."
+      ],
+      high: "Backup power at dialysis centers and nursing homes, cooling and warming centers, priority restoration for medically dependent customers.",
+      low: "System-wide upgrades that are not prioritized toward high-need areas or households."
+    },
+    {
+      key: "cost",
+      name: "Cost",
+      label: "Cost",
+      desc: "Assess the economic cost of the mitigation action using a five-point scale, where a score of 1 represents a very low cost and a score of 5 represents a very high cost. Cost assessments should account for both upfront (capital) costs and ongoing (operation and maintenance) costs over time, and may be informed by historical cost data, cost projections, literature reviews, or expert and stakeholder input.",
+      direction: "Higher cost lowers the ERRS",
+      ends: ["Very low cost", "Very high cost"],
+      anchors: [
+        "Very low cost, counting both upfront and ongoing costs.",
+        "Low cost.",
+        "Moderate cost.",
+        "High cost.",
+        "Very high cost, counting both upfront and ongoing costs."
+      ],
+      high: "Scores 5: large capital projects such as undergrounding many miles of line, or new substations.",
+      low: "Scores 1: low-cost operational changes, such as revised maintenance schedules or customer outreach.",
+      costExamples: true
+    }
+  ];
+
+  const IMPORTANCE = ["Somewhat important", "Important", "Very important"];
+
+  function defaultWeights() {
+    return Object.fromEntries(CRITERIA.map((c) => [c.key, 2]));
+  }
+
+  const EXAMPLE = {
+    example: true,
+    exercise: false,
+    advanced: false,
+    weights: defaultWeights(),
+    options: [
+      {
+        name: "Replace old manual switches on a main power line with automated switches so the system can quickly reroute power around problems and restore most customers faster.",
+        scores: {
+          reliability: 4, resilience: 3, feasibility: 3,
+          acceptability: 5, vulnerable: 3, cost: 4
+        }
+      },
+      {
+        name: "Install a backup generator at the local hospital so lifesaving equipment keeps running during a long power outage.",
+        scores: {
+          reliability: 1, resilience: 4, feasibility: 4,
+          acceptability: 5, vulnerable: 5, cost: 3
+        }
+      }
+    ]
+  };
+
+  // From the ESF-12 stakeholder meeting exercise; scores are left blank for
+  // each participant to fill in.
+  const EXERCISE = {
+    example: false,
+    exercise: true,
+    advanced: false,
+    weights: defaultWeights(),
+    options: [
+      {
+        name: "Battery Backup: Install a battery backup system so the facility can stay open and operational during short and moderate power outages.",
+        scores: {}
+      },
+      {
+        name: "Line Hardening: Harden the power line serving the facility by trimming vegetation, replacing old poles, and installing insulated conductor on the most vulnerable spans to reduce the frequency of outages.",
+        scores: {}
+      }
+    ]
+  };
+
+  const LETTERS = "ABCD";
+  const MAX_OPTIONS = 4;
+  const KEY = "errs-worksheet-v1";
+
+  const sheet = document.getElementById("sheet");
+  const formulas = document.getElementById("formulas");
+  const ranks = document.getElementById("ranks");
+  const notice = document.getElementById("notice");
+  const tip = document.getElementById("tip");
+
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const blank = (advanced = false) => ({
+    example: false,
+    exercise: false,
+    advanced,
+    weights: defaultWeights(),
+    options: [{ name: "", scores: {} }, { name: "", scores: {} }]
+  });
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const fmt = (n) => (Math.round(n * 10) / 10).toLocaleString("en-US", { maximumFractionDigits: 1 });
+  const fmt2 = (n) => n.toFixed(2);
+  const crit = (key) => CRITERIA.find((c) => c.key === key);
+
+  function load() {
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY));
+      if (!s || !Array.isArray(s.options) || s.options.length < 2) return null;
+      s.options = s.options.slice(0, MAX_OPTIONS).map((o) => {
+        const scores = {};
+        for (const c of CRITERIA) {
+          const v = Number(o?.scores?.[c.key]);
+          if (Number.isInteger(v) && v >= 1 && v <= 5) scores[c.key] = v;
+        }
+        return { name: typeof o?.name === "string" ? o.name : "", scores };
+      });
+      s.example = Boolean(s.example);
+      s.advanced = Boolean(s.advanced);
+      s.exercise = Boolean(s.exercise);
+      // An untouched example always shows the current training example.
+      if (s.example) return { ...clone(EXAMPLE), advanced: s.advanced };
+      const weights = defaultWeights();
+      for (const c of CRITERIA) {
+        const w = Number(s.weights?.[c.key]);
+        if (Number.isInteger(w) && w >= 1 && w <= 3) weights[c.key] = w;
+      }
+      s.weights = weights;
+      return s;
+    } catch (e) {
+      return null;
+    }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  let state = load() || blank();
+
+  function compute(o) {
+    const s = o.scores;
+    const missing = CRITERIA.filter((c) => !s[c.key]);
+    if (missing.length) return { complete: false, missing };
+    const sum = s.reliability + s.resilience;
+    const product = sum * s.feasibility * s.acceptability * s.vulnerable;
+    return { complete: true, missing, sum, product, errs: product / s.cost };
+  }
+
+  // Cost is reversed (6 - cost) so that, like every other component, a higher
+  // value counts in the option's favor.
+  function computeWeighted(o) {
+    const parts = CRITERIA.map((c) => {
+      const v = o.scores[c.key];
+      const s = v && c.key === "cost" ? 6 - v : v;
+      return { key: c.key, w: state.weights[c.key], v, s };
+    });
+    const den = parts.reduce((t, p) => t + p.w, 0);
+    if (parts.some((p) => !p.v)) return { complete: false, parts, den };
+    const num = parts.reduce((t, p) => t + p.w * p.s, 0);
+    return { complete: true, parts, num, den, score: num / den };
+  }
+
+  function hasScores() {
+    return state.options.some((o) => Object.keys(o.scores).length);
+  }
+
+  function hasEntries() {
+    return state.options.some((o) => o.name.trim() || Object.keys(o.scores).length);
+  }
+
+  // Sheet ----------------------------------------------------------------
+
+  function scoreCell(o, i, c) {
+    const L = LETTERS[i];
+    const v = o.scores[c.key];
+    const segs = [1, 2, 3, 4, 5].map((n) => `
+      <label data-tip="${n} — ${esc(c.anchors[n - 1])}">
+        <input class="sr" type="radio" name="s-${L}-${c.key}" id="s-${L}-${c.key}-${n}"
+          value="${n}" data-opt="${i}" data-crit="${c.key}"${v === n ? " checked" : ""}>
+        <span>${n}</span>
+      </label>`).join("");
+    return `
+      <div class="cell">
+        <fieldset class="score opt-${i}" data-link="${i}:${c.key}">
+          <legend class="sr">${c.name} score for Option ${L}</legend>
+          <span class="score-tag" aria-hidden="true">Option ${L}</span>
+          <div class="seg">${segs}</div>
+          <div class="ends" aria-hidden="true"><span>1 ${c.ends[0]}</span><span>5 ${c.ends[1]}</span></div>
+          <p class="anchor${v ? "" : " empty"}" id="a-${L}-${c.key}">${v ? esc(c.anchors[v - 1]) : "Not scored yet"}</p>
+        </fieldset>
+      </div>`;
+  }
+
+  function renderSheet() {
+    const n = state.options.length;
+    sheet.style.setProperty("--n", n);
+    const heads = state.options.map((o, i) => {
+      const L = LETTERS[i];
+      const remove = i >= 2
+        ? `<button class="icon-btn" type="button" data-remove="${i}" aria-label="Remove option ${L}">Remove</button>`
+        : "";
+      return `
+        <div class="cell opt-head opt-${i}">
+          <div class="opt-head-top"><label for="name-${L}">Mitigation Option ${L}</label>${remove}</div>
+          <textarea id="name-${L}" data-name="${i}" rows="2" placeholder="Describe option ${L}">${esc(o.name)}</textarea>
+        </div>`;
+    }).join("");
+
+    const rows = CRITERIA.map((c) => {
+      const scale = c.anchors.map((a, k) => `<li><b>${k + 1}</b><span>${esc(a)}</span></li>`).join("");
+      const examples = c.costExamples
+        ? `<p>${esc(c.high)}</p><p>${esc(c.low)}</p><p>Agree on rough dollar ranges for each level before scoring, so every scorer reads the scale the same way.</p>`
+        : `<p><strong>Tends to score high:</strong> ${esc(c.high)}</p><p><strong>Tends to score low:</strong> ${esc(c.low)}</p>`;
+      return `
+        <div class="row">
+          <div class="cell crit">
+            <h3>${c.name} Score</h3>
+            <p>${c.desc}</p>
+            ${c.direction ? `<span class="direction">${c.direction}</span>` : ""}
+            ${state.advanced ? importance(c) : ""}
+            <details>
+              <summary>Scale guide and examples</summary>
+              <ol class="scale">${scale}</ol>
+              <div class="examples">${examples}</div>
+            </details>
+          </div>
+          ${state.options.map((o, i) => scoreCell(o, i, c)).join("")}
+        </div>`;
+    }).join("");
+
+    sheet.innerHTML = `
+      <div class="row row-head">
+        <div class="cell"><p class="cue">Name each option, then click a score (1–5) for every component. Hover a number to see what it means. ↴</p></div>
+        ${heads}
+      </div>
+      ${rows}`;
+    layout();
+    autosizeNames();
+    document.getElementById("add-option").disabled = n >= MAX_OPTIONS;
+    document.getElementById("advanced").checked = state.advanced;
+    document.querySelectorAll(".adv-only").forEach((el) => { el.hidden = !state.advanced; });
+    renderResults();
+  }
+
+  function importance(c) {
+    const w = state.weights[c.key];
+    const segs = [1, 2, 3].map((n) => {
+      const t = n === 1
+        ? `1 — ${IMPORTANCE[0]}. The baseline weight.`
+        : `${n} — ${IMPORTANCE[n - 1]}. Counts ${n}× as much as a component rated 1.`;
+      return `
+        <label data-tip="${t}">
+          <input class="sr" type="radio" name="w-${c.key}" id="w-${c.key}-${n}"
+            value="${n}" data-weight="${c.key}"${w === n ? " checked" : ""}>
+          <span><b>${n}</b>${IMPORTANCE[n - 1]}</span>
+        </label>`;
+    }).join("");
+    const subject = c.key === "cost" ? "keeping cost low" : c.name.toLowerCase();
+    return `
+      <div class="importance" role="radiogroup" aria-labelledby="wl-${c.key}" data-link="w:${c.key}">
+        <p class="imp-label" id="wl-${c.key}">How important is ${subject} to you?</p>
+        <div class="wseg">${segs}</div>
+      </div>`;
+  }
+
+  function layout() {
+    const n = state.options.length;
+    sheet.classList.toggle("stacked", window.innerWidth < (n >= 3 ? 1060 : 780));
+  }
+
+  // Option descriptions can run to several lines; grow each box to fit
+  // rather than clipping the text.
+  function autosize(el) {
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight + 4}px`;
+  }
+  function autosizeNames() {
+    sheet.querySelectorAll("textarea").forEach(autosize);
+  }
+
+  // Results --------------------------------------------------------------
+
+  function term(o, i, key) {
+    const c = crit(key);
+    const v = o.scores[key];
+    const L = LETTERS[i];
+    const t = v
+      ? `${c.name} score for Option ${L}: ${v}\n${c.anchors[v - 1]}`
+      : `${c.name} score for Option ${L} has not been entered.`;
+    return `<span class="term${v ? "" : " empty"}" data-link="${i}:${key}" data-tip="${esc(t)}"><span class="term-val">${v ?? "?"}</span><span class="term-lab">${c.label} (${L})</span></span>`;
+  }
+
+  function renderResults() {
+    formulas.innerHTML = state.options.map((o, i) => {
+      const L = LETTERS[i];
+      const r = compute(o);
+      const s = o.scores;
+      let work;
+      let resultTip;
+      if (r.complete) {
+        const steps = [
+          `(${s.reliability} + ${s.resilience}) = ${r.sum}`,
+          `${r.sum} × ${s.feasibility} × ${s.acceptability} × ${s.vulnerable} = ${r.product.toLocaleString("en-US")}`,
+          `${r.product.toLocaleString("en-US")} ÷ ${s.cost} = ${fmt(r.errs)}`
+        ];
+        work = `${steps[0]} &nbsp;→&nbsp; ${steps[1]} &nbsp;→&nbsp; <strong>${esc(steps[2])}</strong>`;
+        resultTip = `Step 1: reliability + resilience\n${steps[0]}\nStep 2: multiply by feasibility, acceptability, vulnerable population\n${steps[1]}\nStep 3: divide by cost\n${steps[2]}`;
+      } else {
+        const names = r.missing.map((c) => c.name).join(", ");
+        work = `${r.missing.length} of 6 scores still needed: ${esc(names)}`;
+        resultTip = `Enter all six scores for Option ${L} to calculate its ERRS.`;
+      }
+      return `
+        <article class="eq opt-${i}">
+          <h3 class="eq-title"><span class="eq-letter">Option ${L}</span><span class="eq-name">${esc(o.name.trim()) || "Unnamed option"}</span></h3>
+          <div class="eq-scroll">
+            <div class="eq-body">
+              <div class="frac">
+                <div class="num">
+                  <span class="br">[</span><span class="br">(</span>
+                  ${term(o, i, "reliability")}<span class="op">+</span>${term(o, i, "resilience")}
+                  <span class="br">)</span><span class="op">×</span>
+                  ${term(o, i, "feasibility")}<span class="op">×</span>
+                  ${term(o, i, "acceptability")}<span class="op">×</span>
+                  ${term(o, i, "vulnerable")}
+                  <span class="br">]</span>
+                </div>
+                <div class="frac-rule"></div>
+                <div class="den">${term(o, i, "cost")}</div>
+              </div>
+              <span class="op">=</span>
+              <div class="result-wrap">
+                <span class="result-lab">ERRS for Opt. ${L}</span>
+                <output class="result${r.complete ? "" : " pending"}" data-tip="${esc(resultTip)}">${r.complete ? fmt(r.errs) : "—"}</output>
+              </div>
+            </div>
+          </div>
+          <p class="work">${work}</p>
+          ${state.advanced ? weightedBlock(o, i) : ""}
+        </article>`;
+    }).join("");
+    if (state.advanced) {
+      formulas.querySelectorAll(".eq").forEach((el) => {
+        el.querySelector(".eq-scroll").insertAdjacentHTML("beforebegin", `<p class="method-label">Standard ERRS</p>`);
+      });
+    }
+    renderRanks();
+    renderNotice();
+  }
+
+  function weightedTerm(o, i, p) {
+    const c = crit(p.key);
+    const L = LETTERS[i];
+    const isCost = p.key === "cost";
+    let t = `${c.name} score for Option ${L} has not been entered.`;
+    if (p.v) {
+      t = `${c.name}, Option ${L}: importance ${p.w} × score ${p.s} = ${p.w * p.s}`;
+      if (isCost) t += `\nCost score ${p.v} is reversed (6 − ${p.v} = ${p.s}) so a lower cost counts in the option's favor.`;
+    }
+    return `<span class="term wterm${p.v ? "" : " empty"}" data-link="${i}:${p.key}" data-tip="${esc(t)}"><span class="term-val"><span class="w" data-link="w:${p.key}">${p.w}</span><span class="times">×</span>${p.s ?? "?"}</span><span class="term-lab">${isCost ? "Cost rev." : c.label} (${L})</span></span>`;
+  }
+
+  function weightedBlock(o, i) {
+    const L = LETTERS[i];
+    const r = computeWeighted(o);
+    const terms = r.parts.map((p) => weightedTerm(o, i, p)).join(`<span class="op">+</span>`);
+    let work = "Needs the same scores as the standard ERRS above.";
+    let resultTip = `Enter all six scores for Option ${L} to calculate its weighted score.`;
+    if (r.complete) {
+      const products = r.parts.map((p) => (p.key === "cost" ? `${p.w}×(6−${p.v})` : `${p.w}×${p.s}`)).join(" + ");
+      work = `${products} = ${r.num} &nbsp;→&nbsp; <strong>${r.num} ÷ ${r.den} = ${fmt2(r.score)}</strong>`;
+      resultTip = `Step 1: multiply each score by its importance and add\n${r.num}\nStep 2: divide by total importance (${r.den})\n${r.num} ÷ ${r.den} = ${fmt2(r.score)}`;
+    }
+    const denTip = `Total importance: ${r.parts.map((p) => p.w).join(" + ")} = ${r.den}`;
+    return `
+      <div class="method-split">
+        <p class="method-label">Weighted score (advanced)</p>
+        <div class="eq-scroll">
+          <div class="eq-body">
+            <div class="frac">
+              <div class="num">${terms}</div>
+              <div class="frac-rule"></div>
+              <div class="den"><span class="term" data-tip="${esc(denTip)}"><span class="term-val">${r.den}</span><span class="term-lab">Total importance</span></span></div>
+            </div>
+            <span class="op">=</span>
+            <div class="result-wrap">
+              <span class="result-lab">Weighted, Opt. ${L}</span>
+              <output class="result${r.complete ? "" : " pending"}" data-tip="${esc(resultTip)}">${r.complete ? fmt2(r.score) : "—"}</output>
+            </div>
+          </div>
+        </div>
+        <p class="work">${work}</p>
+      </div>`;
+  }
+
+  function rankBlock(title, items, format, width, note) {
+    const top = items[0].value;
+    const tied = items.filter((d) => d.value === top).length > 1;
+    const rows = items.map((d) => {
+      const chip = d.value === top ? `<span class="chip">${tied ? "Tied highest" : "Highest"}</span>` : "";
+      return `
+        <div class="rank opt-${d.i}">
+          <div class="rank-top">
+            <span class="rank-name"><b>${LETTERS[d.i]}</b>${esc(d.o.name.trim()) || "Unnamed option"}${chip}</span>
+            <span class="rank-val">${format(d.value)}</span>
+          </div>
+          <div class="track"><div class="fill" style="width:${Math.max(0.5, width(d.value, top))}%"></div></div>
+        </div>`;
+    }).join("");
+    return `
+      <div class="rank-block">
+        ${title ? `<p class="method-label">${title}</p>` : ""}
+        <div class="ranks">${rows}</div>
+        <p class="compare-note">${note(items, tied)}</p>
+      </div>`;
+  }
+
+  function renderRanks() {
+    const byValue = (a, b) => b.value - a.value;
+    const std = state.options
+      .map((o, i) => ({ o, i, r: compute(o) }))
+      .filter((d) => d.r.complete)
+      .map((d) => ({ ...d, value: d.r.errs }))
+      .sort(byValue);
+    if (std.length < 2) {
+      ranks.innerHTML = `<p class="compare-note">Complete all six scores for at least two options to compare them. ${std.length} of ${state.options.length} options complete.</p>`;
+      return;
+    }
+
+    let html = rankBlock(
+      state.advanced ? "Standard ERRS" : "",
+      std,
+      fmt,
+      (v, top) => (v / top) * 100,
+      (items, tied) => {
+        const base = "Bars are drawn relative to the highest-scoring option.";
+        if (tied || items[1].value <= 0) return base;
+        const ratio = items[0].value / items[1].value;
+        return `Option ${LETTERS[items[0].i]} scores ${ratio.toFixed(1)}× the next option. ${base}`;
+      }
+    );
+
+    if (state.advanced) {
+      const wtd = std
+        .map((d) => ({ o: d.o, i: d.i, value: computeWeighted(d.o).score }))
+        .sort(byValue);
+      html += rankBlock(
+        "Weighted score",
+        wtd,
+        fmt2,
+        (v) => ((v - 1) / 4) * 100,
+        (items, tied) => {
+          const base = "Bars run from 1 (empty) to 5 (full).";
+          if (tied) return base;
+          const gap = items[0].value - items[1].value;
+          return `Option ${LETTERS[items[0].i]} leads by ${fmt2(gap)} points. ${base}`;
+        }
+      );
+      const stdOrder = std.map((d) => d.i).join();
+      const wtdOrder = wtd.map((d) => d.i).join();
+      let agree = "Both methods produce the same ranking.";
+      if (std[0].i !== wtd[0].i) {
+        agree = `The methods pick different top options: Option ${LETTERS[std[0].i]} under the standard ERRS, Option ${LETTERS[wtd[0].i]} under the weighted score.`;
+      } else if (stdOrder !== wtdOrder) {
+        agree = "Both methods pick the same top option, but the order below it changes.";
+      }
+      html += `<p class="methods-note">${agree}</p>`;
+    }
+
+    const incomplete = state.options.length - std.length;
+    const tail = incomplete
+      ? `<p class="compare-note">${incomplete} option${incomplete > 1 ? "s are" : " is"} not yet fully scored.</p>`
+      : "";
+    ranks.innerHTML = `<div class="rank-blocks">${html}</div>${tail}`;
+  }
+
+  // The exercise scenario stays visible while participants score, so it is
+  // not cleared by edits the way the worked example is.
+  function renderNotice() {
+    notice.classList.toggle("is-example", state.example || state.exercise);
+    if (state.example) {
+      notice.textContent = "Showing a worked example. Change any score to make it your own, or clear the worksheet to start fresh.";
+    } else if (state.exercise) {
+      notice.textContent = "Exercise: Your planning team at a small municipal utility is applying for a grant that will fund only one action this cycle, at a key community facility such as a community center, fire station or hospital. Score each option on your own, then compare with your table.";
+    } else {
+      notice.textContent = "Your entries are saved in this browser only.";
+    }
+  }
+
+  // Events ---------------------------------------------------------------
+
+  function setScore(i, key, v) {
+    const o = state.options[i];
+    if (v) o.scores[key] = v; else delete o.scores[key];
+    state.example = false;
+    const a = document.getElementById(`a-${LETTERS[i]}-${key}`);
+    if (a) {
+      a.textContent = v ? crit(key).anchors[v - 1] : "Not scored yet";
+      a.classList.toggle("empty", !v);
+    }
+    renderResults();
+    save();
+  }
+
+  document.addEventListener("change", (e) => {
+    const t = e.target;
+    if (t.matches(".seg input")) setScore(Number(t.dataset.opt), t.dataset.crit, Number(t.value));
+    if (t.matches("input[data-weight]")) {
+      state.weights[t.dataset.weight] = Number(t.value);
+      renderResults();
+      save();
+    }
+    if (t.id === "advanced") {
+      state.advanced = t.checked;
+      hideTip();
+      renderSheet();
+      save();
+    }
+  });
+
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+    if (!t.matches("textarea[data-name]")) return;
+    state.options[Number(t.dataset.name)].name = t.value;
+    autosize(t);
+    state.example = false;
+    renderResults();
+    save();
+  });
+
+  // Clicking the selected score again clears it.
+  let armedRadio = null;
+  document.addEventListener("pointerdown", (e) => {
+    const lab = e.target.closest(".seg label");
+    const input = lab && lab.querySelector("input");
+    armedRadio = input && input.checked ? input : null;
+  });
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    if (t.matches(".seg input") && t === armedRadio) {
+      t.checked = false;
+      armedRadio = null;
+      setScore(Number(t.dataset.opt), t.dataset.crit, null);
+    }
+    const rm = t.closest("[data-remove]");
+    if (rm) {
+      state.options.splice(Number(rm.dataset.remove), 1);
+      state.example = false;
+      hideTip();
+      renderSheet();
+      save();
+    }
+  });
+
+  document.getElementById("add-option").addEventListener("click", () => {
+    if (state.options.length >= MAX_OPTIONS) return;
+    state.options.push({ name: "", scores: {} });
+    state.example = false;
+    renderSheet();
+    save();
+    document.getElementById(`name-${LETTERS[state.options.length - 1]}`).focus();
+  });
+
+  // Destructive buttons ask for a second click rather than a modal dialog.
+  function twoStep(btn, label, confirmLabel, action) {
+    let timer = null;
+    btn.addEventListener("click", () => {
+      const untouched = state.example || (state.exercise && !hasScores());
+      if (!hasEntries() || untouched || btn.classList.contains("is-armed")) {
+        clearTimeout(timer);
+        btn.classList.remove("is-armed");
+        btn.textContent = label;
+        action();
+        return;
+      }
+      btn.classList.add("is-armed");
+      btn.textContent = confirmLabel;
+      timer = setTimeout(() => {
+        btn.classList.remove("is-armed");
+        btn.textContent = label;
+      }, 3500);
+    });
+  }
+  twoStep(document.getElementById("clear"), "Clear worksheet", "Click again to clear", () => {
+    state = blank(state.advanced);
+    renderSheet();
+    save();
+  });
+  twoStep(document.getElementById("load-example"), "Load example", "Replace your entries?", () => {
+    state = { ...clone(EXAMPLE), advanced: state.advanced };
+    renderSheet();
+    save();
+  });
+  twoStep(document.getElementById("load-exercise"), "Load exercise", "Replace your entries?", () => {
+    state = { ...clone(EXERCISE), advanced: state.advanced };
+    renderSheet();
+    save();
+  });
+
+  // Tooltips and linked highlighting ---------------------------------------
+
+  function showTip(el) {
+    tip.textContent = el.dataset.tip;
+    tip.hidden = false;
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    const x = Math.max(8, Math.min(r.left + r.width / 2 - tw / 2, window.innerWidth - tw - 8));
+    let y = r.top - th - 8;
+    if (y < 8) y = r.bottom + 8;
+    tip.style.left = `${x}px`;
+    tip.style.top = `${y}px`;
+  }
+  function hideTip() { tip.hidden = true; }
+  function link(el) {
+    unlink();
+    const target = el && el.closest("[data-link]");
+    if (!target) return;
+    document.querySelectorAll(`[data-link="${target.dataset.link}"]`).forEach((n) => n.classList.add("linked"));
+  }
+  function unlink() {
+    document.querySelectorAll(".linked").forEach((n) => n.classList.remove("linked"));
+  }
+
+  document.addEventListener("pointerover", (e) => {
+    if (e.pointerType === "touch") return;
+    const el = e.target.closest("[data-tip]");
+    if (el) showTip(el); else hideTip();
+    link(e.target);
+  });
+  document.addEventListener("pointerleave", () => { hideTip(); unlink(); });
+  document.addEventListener("focusin", (e) => {
+    const el = e.target.closest("[data-tip]");
+    if (el) showTip(el); else hideTip();
+    link(e.target);
+  });
+  document.addEventListener("focusout", () => { hideTip(); unlink(); });
+  window.addEventListener("scroll", hideTip, { passive: true });
+  window.addEventListener("resize", () => { hideTip(); layout(); autosizeNames(); });
+
+  renderSheet();
+  document.fonts?.ready.then(autosizeNames);
+</script>
+</body>
+</html>
