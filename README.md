@@ -10,7 +10,7 @@ ERRS = [(Reliability + Resilience) × Feasibility × Acceptability
         × Vulnerable Population Impact] ÷ Cost
 ```
 
-- **Beta:** https://ippra.github.io/errs/
+- **Beta:** https://ripberjt.github.io/errs/
 - **Release:** https://ippra.net/errs
 
 ## What it does
