@@ -39,7 +39,10 @@ ERRS = [(Reliability + Resilience) × Feasibility × Acceptability
 | `reference/errs_worksheet.pptx` | the original one-page print worksheet the site is built from |
 | `.github/workflows/pages.yml` | publishes `site/` to GitHub Pages on every push to `main` |
 
-There is no build step and no dependency beyond three Google Fonts. To preview,
+There is no build step and no external dependency. The page carries the look
+the institute's dashboards share (`ippra/s3ok_dash`, `ippra/wxdash`): the IPPRA
+bar, the masthead with its viridis strip, and light, dark and greyscale themes
+under "Adjust colors". To preview,
 open `site/index.html` in a browser, or serve it:
 
 ```sh
