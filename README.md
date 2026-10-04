@@ -49,8 +49,28 @@ open `site/index.html` in a browser, or serve it:
 python3 -m http.server 8902 --directory site    # http://localhost:8902
 ```
 
-## Releasing
+## Deploying
 
-A push to `main` publishes the beta. When the beta is ready, copy
-`site/index.html` to `ippra.net/errs`. The page uses no absolute paths, so it
-runs unchanged at either address.
+Two deployments of one file.
+
+**Beta: GitHub Pages, automatic.** `.github/workflows/pages.yml` publishes
+`site/` to https://ippra.github.io/errs/ on every push to `main`. It adds a
+`noindex` tag to the published copy, so the beta is never found in place of
+production. The page shows a Beta label beside the masthead title wherever it
+is not served from ippra.net. The repository's Pages source must be set to
+GitHub Actions (Settings, Pages).
+
+**Production: ippra.net, by hand. Matt deploys it.** There is nothing to
+build. From a fresh clone of `main`:
+
+```
+rsync -av --delete site/ <ippra.net host>:<docroot>/errs/
+```
+
+The page is one static file with no relative or absolute paths of its own, so
+it runs under any path and needs no server-side code. One server setting:
+serve `index.html` with `Cache-Control: no-cache` (as for the dashboards, on
+the entry URLs `/errs`, `/errs/` and `/errs/index.html`), so a new deploy is
+seen without a hard refresh.
+
+To publish a newer version, pull `main` and rsync again.

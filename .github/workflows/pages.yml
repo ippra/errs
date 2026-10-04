@@ -1,8 +1,9 @@
 # Publish the beta to GitHub Pages.
 #
 # The worksheet is one static file with no build step, so a push to main
-# uploads site/ as it stands. The beta lives at https://ippra.github.io/errs/;
-# the released version at https://ippra.net/errs is copied there by hand.
+# uploads site/ with a noindex tag added. The beta lives at
+# https://ippra.github.io/errs/; the released version at https://ippra.net/errs
+# is copied there by hand (see Deploying in README.md).
 
 name: Publish beta
 
@@ -26,9 +27,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The beta must not be indexed in place of production. The tag goes into
+      # the published copy only, so site/ stays the file that is released.
+      - name: Mark the beta noindex
+        run: |
+          cp -r site _beta
+          perl -pi -e 's|(<meta name="viewport"[^>]*>)|$1\n<meta name="robots" content="noindex">|' _beta/index.html
+          grep -q '<meta name="robots" content="noindex">' _beta/index.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _beta
 
   deploy:
     needs: build
